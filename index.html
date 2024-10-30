@@ -7,22 +7,13 @@
 <body>
     <h1>CORS Test</h1>
     <script>
-        fetch("https://oat.openapi.m-pesa.com:19050/ipg/v2/psp/intQTS/?input_resultURLDestination&input_QueryReference=1iopl116&input_OrganisationShortCode=223364&input_ThirdPartyConversationID=sdcsdc651651&input_VirtualPSPOrAquirerShortCode=123456&input_Country=GHA&input_resultURLDestination&input_APIVersion=3.1", {
-            method: 'GET',
-            headers: {
-                'Authorization': 'Bearer c//to/+73eXSQwvm77H0dm//FIecQQF6o4GLCjb8UGDl/wTT8/LOvis+UMuchuqMpu86s3IfjbCSIgynyV1vuedFhr2gASsd1CV+Fbi6h2Kso8Y9SyX7N7J97ZpuJLKoHrpXQZ54ADYMeR8Y8C9RNBJTXXlCCVgNSOeB1SFOrAh32KWm77BPyEHJDZ+PFkNI4FzRLBM1loeyQQMCYeCsj2kKFSROBS/HFFB1eBs6Hh/s4CCkVtlviTiAvwnyKhEP6Bylrzhhymc4ykoxOrY5JHF7jTXUbefkLSDEUUiDX/Gw8QC4wMD6T+0iYw69yjYGW2LY14E42Wjc4All3tbT9kG9TJG/e6PJ8SeQ5/SXtLvn/lrXNasiS/17d/H7koQ5QtgI1K48rhm8KhDjTmiBf0Ftm1d5UrJXfE2v/GRPUrMH0I7h1WW3sw2WrdtxrCHZns84jNrJGxA+VsX67LcKZMe/EPNVFdAKLFqZtQ8PNaV1hYxI6j5FFK8PU9CrU9tIRshKHssZD0q6V25HXVJLtmIu9d/+82QFWSVE5pUo9bYiGGNlJsTKSwZFxbGSIOexNbIUSVKLs/9/aqAKyF8UacWwBxXTsMN+GjLEZZcsXQjAAL4gRG7Qo9NEKM6iyZvcIvNZyGvpMCiKHYL6ctEO+spkYm6oQfhcY9OhmWgXQoM=',
-                'Origin': 'http://10.35.2.136:80'
-            }
-        })
-        .then(response => {
-            if (response.ok) {
-                return response.text();
-            } else {
-                throw new Error('Request failed');
-            }
-        })
-        .then(data => console.log("Response data:", data))
-        .catch(error => console.error("Error:", error));
+       fetch("http://localhost:3000/proxy?input_resultURLDestination=&input_QueryReference=1iopl116&input_OrganisationShortCode=223364&input_ThirdPartyConversationID=sdcsdc651651&input_VirtualPSPOrAquirerShortCode=123456&input_Country=GHA&input_APIVersion=3.1", {
+    method: 'GET'
+})
+.then(response => response.json())
+.then(data => console.log("Response data:", data))
+.catch(error => console.error("Error:", error));
+
     </script>
 </body>
 </html>
