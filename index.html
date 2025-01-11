@@ -1,0 +1,1112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fashion Catalogue</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        /* Reset and base styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    line-height: 1.6;
+    background: linear-gradient(to bottom right, rgba(255, 229, 229, 0.5), rgba(229, 240, 255, 0.5));
+}
+
+/* Header styles */
+.header {
+    position: sticky;
+    top: 0;
+    background-color: #FFE5E5;
+    padding: 1rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+}
+
+.header-content {
+    max-width: 1280px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.left-section, .right-section {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.logo i {
+    color: #FF7F7F;
+    font-size: 1.5rem;
+}
+
+.menu-btn {
+    display: none;
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+}
+
+/* Sidebar styles */
+.sidebar {
+    position: fixed;
+    left: -300px;
+    top: 0;
+    width: 300px;
+    height: 100vh;
+    background-color: white;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+    transition: left 0.3s ease;
+    z-index: 1001;
+}
+
+.sidebar.active {
+    left: 0;
+}
+
+.sidebar-header {
+    padding: 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #FFE5E5;
+}
+
+.close-sidebar {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+}
+
+.sidebar-menu {
+    list-style: none;
+    padding: 1rem;
+}
+
+.sidebar-menu li a {
+    display: block;
+    padding: 0.75rem 1rem;
+    color: #333;
+    text-decoration: none;
+    transition: background-color 0.3s;
+}
+
+.sidebar-menu li a:hover {
+    background-color: #E5F0FF;
+}
+
+/* Hero section styles */
+.hero {
+    width: 100%;
+    height: 500px;
+    position: relative;
+    overflow: hidden;
+}
+
+.carousel {
+    width: 100%;
+    height: 100%;
+    position: relative;
+}
+
+.carousel-inner {
+    width: 8100%;
+    height: 100%;
+    position: relative;
+}
+
+.carousel-slide {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    transition: opacity 0.5s ease;
+}
+
+.carousel-slide.active {
+    opacity: 1;
+}
+
+.carousel-slide img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.carousel-content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    color: white;
+    background-color: rgba(0, 0, 0, 0.4);
+    padding: 2rem;
+    /* width: 100%; */
+}
+
+.carousel-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: rgba(255, 255, 255, 0.5);
+    border: none;
+    padding: 1rem;
+    cursor: pointer;
+    font-size: 1.5rem;
+}
+
+.carousel-btn.prev {
+    left: 1rem;
+}
+
+.carousel-btn.next {
+    right: 1rem;
+}
+
+.main-container {
+    display: grid;
+    grid-template-columns: 1fr 3fr; /* 25% for menu, 75% for products */
+    gap: 1rem;
+    /* max-width: 1280px; */
+    margin: 0 auto;
+    padding: 1rem;
+}
+
+.categories-menu {
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 1rem;
+    position: sticky;
+    top: 1rem; /* Sticky positioning */
+    height: fit-content;
+    
+}
+
+.categories-menu h2 {
+    font-size: 1.25rem;
+    margin-bottom: 1rem;
+    color: #333;
+}
+
+.categories-menu ul {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.categories-menu ul li {
+    margin-bottom: 0.5rem;
+}
+
+.categories-menu ul li a {
+    text-decoration: none;
+    color: #333;
+    font-size: 1rem;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.categories-menu ul li a:hover,
+.categories-menu ul li a.active {
+    background-color: #FF7F7F;
+    color: #fff;
+}
+/* Products Container */
+.products-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); /* Responsive product grid */
+    gap: 1.5rem;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 1rem;
+}
+
+.product-card {
+    background: white;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+}
+
+.product-card:hover {
+    transform: translateY(-5px);
+}
+
+.product-image {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+}
+
+.product-details {
+    padding: 1rem;
+}
+
+.color-options {
+    display: flex;
+    gap: 0.5rem;
+    margin: 1rem 0;
+}
+
+.color-option {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    border: 2px solid transparent;
+    cursor: pointer;
+}
+
+.color-option.selected {
+    border-color: #FF7F7F;
+}
+
+.size-options {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin: 1rem 0;
+}
+
+.size-option {
+    padding: 0.5rem 1rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.size-option.selected {
+    background-color: #E5F0FF;
+    border-color: #FF7F7F;
+}
+
+/* Cart styles */
+.cart-modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    max-width: 400px;
+    background: white;
+    box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1);
+    z-index: 1002;
+    /* transform: translateX(100%); */
+    transition: transform 0.3s ease-in-out;
+}
+
+.cart-modal.active {
+    display: block;
+}
+
+.cart-content {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.cart-header {
+    padding: 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #FFE5E5;
+}
+
+.cart-items {
+    flex: 1;
+    overflow-y: auto;
+    padding: 1rem;
+}
+
+.cart-item {
+    display: flex;
+    gap: 1rem;
+    padding: 1rem;
+    border-bottom: 1px solid #ddd;
+}
+
+.cart-footer {
+    padding: 1rem;
+    border-top: 1px solid #ddd;
+}
+
+.cart-total {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+}
+
+.checkout-btn {
+    width: 100%;
+    padding: 0.75rem;
+    background-color: #FF7F7F;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+/* Footer Styles */
+.footer-section {
+    border-top: 1px solid #dee2e6;
+}
+
+.footer-section h5 {
+    font-weight: 600;
+    color: #333;
+}
+
+.social-links a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 35px;
+    height: 35px;
+    background-color: #f8f9fa;
+    border-radius: 50%;
+    color: #666;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.social-links a:hover {
+    background-color: #ff7f7f;
+    color: white;
+    transform: translateY(-3px);
+}
+
+.list-unstyled a {
+    transition: color 0.3s ease;
+}
+
+.list-unstyled a:hover {
+    color: #ff7f7f !important;
+}
+
+.footer-section .btn-primary {
+    background-color: #ff7f7f;
+    border-color: #ff7f7f;
+}
+
+.footer-section .btn-primary:hover {
+    background-color: #ff6666;
+    border-color: #ff6666;
+}
+
+.bottom-footer {
+    background-color: #343a40;
+}
+
+.bottom-footer a {
+    transition: color 0.3s ease;
+}
+
+.bottom-footer a:hover {
+    color: #ff7f7f !important;
+}
+
+@media (max-width: 768px) {
+    .social-links {
+        text-align: center;
+    }
+    
+    .footer-section h5 {
+        margin-top: 1rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .main-container {
+        grid-template-columns: 1fr; /* Single-column layout */
+    }
+
+    .categories-menu {
+        display: flex;
+        flex-direction: row; /* Horizontal layout */
+        justify-content: space-around;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.5rem 1rem;
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+        background-color: blanchedalmond;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .categories-menu ul {
+        flex-direction: row; /* Horizontal list */
+        background-color: blanchedalmond;
+        margin: 0;
+    }
+
+    .categories-menu ul li {
+        margin-bottom: 0;
+    }
+
+    .categories-menu h2 {
+        display: none; /* Hide the heading on small screens */
+    }
+    .logo h1{
+        display: none;
+    }
+}
+
+        </style>
+        
+</head>
+<body>
+    <!-- Sidebar -->
+    <nav class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <h3>Categories</h3>
+            <button class="close-sidebar" id="closeSidebar">×</button>
+        </div>
+        <ul class="sidebar-menu">
+            <li><a href="#" data-category="all">All Products</a></li>
+            <li><a href="#" data-category="T-Shirts">T-Shirts</a></li>
+            <li><a href="#" data-category="Hoodies">Hoodies</a></li>
+            <li><a href="#" data-category="Uniforms">Uniforms</a></li>
+            <li><a href="#" data-category="Jackets">Jackets</a></li>
+        </ul>
+    </nav>
+
+
+    <!-- Header -->
+    <header class="header">
+        <div class="header-content">
+            <div class="left-section">
+                <button id="menuBtn" class="menu-btn">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <div class="logo">
+                    <i class="fas fa-shopping-bag"></i>
+                    <h1>Sakefa Collections Ltd</h1>
+                </div>
+            </div>
+            <div class="right-section">
+                <p class="tagline">Quality Clothing for Everyone</p>
+                <button class="cart-btn" id="cartBtn">
+                    <i class="fas fa-shopping-bag"></i>
+                    <span class="cart-count" id="cartCount">0</span>
+                </button>
+            </div>
+        </div>
+ 
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="carousel">
+            <div class="carousel-inner">
+                <div class="carousel-slide active">
+                    <img src="https://images.unsplash.com/photo-1445205170230-053b83016050?w=800" alt="Premium Quality Clothing">
+                    <div class="carousel-content">
+                        <h2>Premium Quality Clothing</h2>
+                        <p>Discover our collection of high-quality garments</p>
+                    </div>
+                </div>
+                <div class="carousel-slide">
+                    <img src="https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=800" alt="School Uniforms">
+                    <div class="carousel-content">
+                        <h2>School Uniforms</h2>
+                        <p>Complete range of school uniforms</p>
+                    </div>
+                </div>
+                <div class="carousel-slide">
+                    <img src="https://images.unsplash.com/photo-1503341504253-dff4815485f1?w=800" alt="Custom Orders">
+                    <div class="carousel-content">
+                        <h2>Custom Orders</h2>
+                        <p>Bulk orders available for schools and organizations</p>
+                    </div>
+                </div>
+            </div>
+            <button class="carousel-btn prev" id="prevBtn">&lt;</button>
+            <button class="carousel-btn next" id="nextBtn">&gt;</button>
+        </div>
+    </section>
+
+    <!-- Products Section -->
+    <div class="main-container">
+        <!-- Categories Menu -->
+        <aside class="categories-menu">
+            <h2>Categories</h2>
+            <ul>
+                <li><a href="#" data-category="all">All Products</a></li>
+                <li><a href="#" data-category="T-Shirts">T-Shirts</a></li>
+                <li><a href="#" data-category="Hoodies">Hoodies</a></li>
+                <li><a href="#" data-category="Uniforms">Uniforms</a></li>
+                <li><a href="#" data-category="Jackets">Jackets</a></li>
+            </ul>
+        </aside>
+    
+        <!-- Products Section -->
+        <main class="products-container" id="productsContainer">
+            <!-- Products will be dynamically rendered here -->
+        </main>
+    </div>
+    
+
+    <!-- Cart Modal -->
+    <div class="cart-modal" id="cartModal">
+        <div class="cart-content">
+            <div class="cart-header">
+                <h2>Shopping Cart</h2>
+                <button class="close-cart" id="closeCart">×</button>
+            </div>
+            <div class="cart-items" id="cartItems">
+                <!-- Cart items will be dynamically inserted here -->
+            </div>
+            <div class="cart-footer">
+                <div class="cart-total">
+                    <span>Total:</span>
+                    <span id="cartTotal">KSH 0</span>
+                </div>
+                <button class="checkout-btn" id="checkoutBtn" onclick="checkoutViaWhatsApp()">
+                    <i class="fab fa-whatsapp"></i>
+                    Checkout
+                </button>
+            </div>
+        </div>
+    </div>
+    <!-- Add this in the head section -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+
+<!-- Add this before closing body tag -->
+<footer class="footer-section bg-light mt-5">
+    <div class="container py-5">
+        <div class="row">
+            <!-- About Company -->
+            <div class="col-md-3 mb-4">
+                <h5 class="mb-3">About Sakefa Collections Ltd</h5>
+                <p class="text-muted">Quality clothing for everyone. We specialize in school uniforms, casual wear, and custom orders for organizations.</p>
+                <div class="social-links mt-3">
+                    <a href="#" class="me-2"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="me-2"><i class="fab fa-twitter"></i></a>
+                    <a href="#" class="me-2"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="me-2"><i class="fab fa-whatsapp"></i></a>
+                </div>
+            </div>
+
+
+            <!-- Contact Info -->
+            <div class="col-md-3 mb-4">
+                <h5 class="mb-3">Contact Info</h5>
+                <ul class="list-unstyled text-muted">
+                    <li class="mb-2"><i class="fas fa-map-marker-alt me-2"></i>123 Fashion Street, Nairobi</li>
+                    <li class="mb-2"><i class="fas fa-phone me-2"></i>+254 700 000 000</li>
+                    <li class="mb-2"><i class="fas fa-envelope me-2"></i>info@fashioncatalogue.com</li>
+                    <li class="mb-2"><i class="fas fa-clock me-2"></i>Mon - Sat: 9:00 AM - 6:00 PM</li>
+                </ul>
+            </div>
+
+            <!-- Newsletter -->
+            <div class="col-md-3 mb-4">
+                <h5 class="mb-3">Newsletter</h5>
+                <p class="text-muted">Subscribe to receive updates about new products and special offers.</p>
+                <form id="newsletterForm" class="mt-3">
+                    <div class="input-group mb-3">
+                        <input type="email" class="form-control" placeholder="Your Email" required>
+                        <button class="btn btn-primary" type="submit">Subscribe</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bottom Footer -->
+    <div class="bottom-footer py-3 bg-dark">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
+                    <p class="text-light mb-0">&copy; 2025 Fashion Catalogue. All rights reserved.</p>
+                </div>
+                <div class="col-md-6 text-center text-md-end">
+                    <a href="#" class="text-light text-decoration-none me-3">Privacy Policy</a>
+                    <a href="#" class="text-light text-decoration-none me-3">Terms & Conditions</a>
+                    <a href="#" class="text-light text-decoration-none">FAQ</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+
+        document.querySelectorAll('.categories-menu a').forEach(link => {
+    link.addEventListener('click', (e) => {
+        e.preventDefault();
+        const category = e.target.dataset.category;
+        state.selectedCategory = category === 'all' ? null : category;
+        renderProducts(); // Function already defined in your code
+    });
+});
+
+    // State management
+let state = {
+    products: [
+        {
+            id: 1,
+            name: "Adult Roundneck T-shirt",
+            category: "T-Shirts",
+            sizes: [
+                { name: "S", price: 330 },
+                { name: "M", price: 330 },
+                { name: "L", price: 330 },
+                { name: "XL", price: 330 },
+                { name: "XXL", price: 380 },
+            ],
+            description: "Comfortable adult roundneck t-shirt available in various sizes",
+            image: "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=500",
+        },
+        // ... keep existing code (rest of the products array)
+        {
+    id: 2,
+    name: "Kids Roundneck T-shirt",
+    category: "T-Shirts",
+    sizes: [
+      { name: "0-2", price: 230 },
+      { name: "3-4", price: 230 },
+      { name: "5-6", price: 230 },
+      { name: "7-8", price: 230 },
+      { name: "9-10", price: 230 },
+      { name: "11-12", price: 230 },
+    ],
+    description: "Cute and comfortable kids roundneck t-shirt",
+    image: "https://images.unsplash.com/photo-1519278409-1f56fdda7fe5?w=500",
+  },
+  {
+    id: 3,
+    name: "Adult Polo T-shirt",
+    category: "T-Shirts",
+    sizes: [
+      { name: "S", price: 600 },
+      { name: "M", price: 600 },
+      { name: "L", price: 600 },
+      { name: "XL", price: 600 },
+      { name: "XXL", price: 700 },
+      { name: "XXXL", price: 1000 },
+    ],
+    description: "Classic polo t-shirt for adults",
+    image: "https://images.unsplash.com/photo-1581655353564-df123a1eb820?w=500",
+  },
+  {
+    id: 4,
+    name: "Kids Polo T-shirt",
+    category: "T-Shirts",
+    sizes: [
+      { name: "0-2", price: 500 },
+      { name: "3-4", price: 500 },
+      { name: "5-6", price: 500 },
+      { name: "7-8", price: 500 },
+      { name: "9-10", price: 500 },
+      { name: "11-12", price: 500 },
+    ],
+    description: "Stylish polo t-shirt for kids",
+    image: "https://images.unsplash.com/photo-1519278409-1f56fdda7fe5?w=500",
+  },
+  {
+    id: 5,
+    name: "Heavy Duty Hoodie",
+    category: "Hoodies",
+    sizes: [
+      { name: "S", price: 1450 },
+      { name: "M", price: 1450 },
+      { name: "L", price: 1450 },
+      { name: "XL", price: 1450 },
+    ],
+    description: "Premium quality heavy duty hoodie",
+    minQuantity: 20,
+    image: "https://images.unsplash.com/photo-1556821840-3a63f95609a7?w=500",
+  },
+  {
+    id: 6,
+    name: "School Fleece Jacket",
+    category: "Jackets",
+    sizes: [
+      { name: "S22-24", price: 1200 },
+      { name: "S26-28", price: 1400 },
+      { name: "S30-32", price: 1500 },
+      { name: "S34-36", price: 1650 },
+    ],
+    description: "Warm and comfortable school fleece jacket",
+    image: "https://images.unsplash.com/photo-1551028719-00167b16eac5?w=500",
+  },
+  {
+    id: 7,
+    name: "School Dress",
+    category: "Uniforms",
+    sizes: [
+      { name: "S22-24", price: 800 },
+      { name: "S26-28", price: 900 },
+      { name: "S30-32", price: 1000 },
+      { name: "S34-36", price: 1200 },
+    ],
+    description: "Classic school dress uniform",
+    image: "https://www.globaluniforms.co.in/images/products/girls-school-dress.jpg",
+  },
+  {
+    id: 8,
+    name: "School Trousers",
+    category: "Uniforms",
+    sizes: [
+      { name: "S22-24", price: 800 },
+      { name: "S26-28", price: 850 },
+      { name: "S30-32", price: 900 },
+      { name: "S34-36", price: 1000 },
+    ],
+    description: "Smart school uniform trousers",
+    image: "https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?w=500",
+  },
+  {
+    id: 9,
+    name: "School Shorts",
+    category: "Uniforms",
+    sizes: [
+      { name: "S22", price: 600 },
+      { name: "S24", price: 600 },
+      { name: "S26", price: 600 },
+      { name: "S28", price: 800 },
+      { name: "S30", price: 800 },
+      { name: "S32", price: 800 },
+      { name: "S34", price: 800 },
+      { name: "S36", price: 800 },
+    ],
+    description: "Comfortable school uniform shorts",
+    image: "https://images.unsplash.com/photo-1591195853828-11db59a44f6b?w=500",
+  },
+  {
+    id: 10,
+    name: "Overall",
+    category: "Uniforms",
+    sizes: [
+      { name: "S", price: 1500 },
+      { name: "M", price: 1500 },
+      { name: "L", price: 1500 },
+      { name: "XL", price: 1500 },
+    ],
+    description: "Durable work overall",
+    image: "https://images.unsplash.com/photo-1596755094514-f87e34085b2c?w=500",
+  },
+  {
+    id: 11,
+    name: "Dustcoat",
+    category: "Uniforms",
+    sizes: [
+      { name: "S", price: 700 },
+      { name: "M", price: 700 },
+      { name: "L", price: 700 },
+      { name: "XL", price: 700 },
+    ],
+    description: "Professional dustcoat",
+    image: "https://images.unsplash.com/photo-1584598665938-079ecb58e912?w=500",
+  },
+
+    ],
+    cart: [],
+    currentSlide: 0,
+    selectedCategory: null
+};
+
+// DOM Elements
+const sidebar = document.getElementById('sidebar');
+const menuBtn = document.getElementById('menuBtn');
+const closeSidebarBtn = document.getElementById('closeSidebar');
+const cartModal = document.getElementById('cartModal');
+const cartBtn = document.getElementById('cartBtn');
+const closeCartBtn = document.getElementById('closeCart');
+const productsContainer = document.getElementById('productsContainer');
+const cartItems = document.getElementById('cartItems');
+const cartCount = document.getElementById('cartCount');
+const cartTotal = document.getElementById('cartTotal');
+const prevBtn = document.getElementById('prevBtn');
+const nextBtn = document.getElementById('nextBtn');
+
+// Event Listeners
+menuBtn.addEventListener('click', () => sidebar.classList.add('active'));
+closeSidebarBtn.addEventListener('click', () => sidebar.classList.remove('active'));
+cartBtn.addEventListener('click', () => cartModal.classList.add('active'));
+closeCartBtn.addEventListener('click', () => cartModal.classList.remove('active'));
+prevBtn.addEventListener('click', () => changeSlide(-1));
+nextBtn.addEventListener('click', () => changeSlide(1));
+
+// Carousel functionality
+function changeSlide(direction) {
+    const slides = document.querySelectorAll('.carousel-slide');
+    slides[state.currentSlide].classList.remove('active');
+    
+    state.currentSlide = (state.currentSlide + direction + slides.length) % slides.length;
+    slides[state.currentSlide].classList.add('active');
+}
+
+// Auto-advance carousel
+setInterval(() => changeSlide(1), 5000);
+
+// Product rendering
+function renderProducts() {
+    const filteredProducts = state.selectedCategory
+        ? state.products.filter(p => p.category === state.selectedCategory)
+        : state.products;
+
+    productsContainer.innerHTML = filteredProducts.map(product => `
+        <div class="product-card" data-id="${product.id}">
+            <img src="${product.image}" alt="${product.name}" class="product-image">
+            <div class="product-details">
+                <h3>${product.name}</h3>
+                <p>${product.description}</p>
+                <div class="color-options">
+                    ${['White', 'Black', 'Navy', 'Red', 'Gray'].map(color => `
+                        <div class="color-option" 
+                             style="background-color: ${color.toLowerCase()}"
+                             data-color="${color}">
+                        </div>
+                    `).join('')}
+                </div>
+                <div class="size-options">
+                    ${product.sizes.map(size => `
+                        <button class="size-option" data-size="${size.name}">
+                            ${size.name} - KSH ${size.price}
+                        </button>
+                    `).join('')}
+                </div>
+                <button class="add-to-cart-btn checkout-btn">Add to Cart</button>
+            </div>
+        </div>
+    `).join('');
+
+    // Add event listeners to new elements
+    attachProductEventListeners();
+}
+
+function attachProductEventListeners() {
+    // Color selection
+    document.querySelectorAll('.color-option').forEach(option => {
+        option.addEventListener('click', (e) => {
+            const card = e.target.closest('.product-card');
+            card.querySelectorAll('.color-option').forEach(opt => opt.classList.remove('selected'));
+            e.target.classList.add('selected');
+        });
+    });
+
+    // Size selection
+    document.querySelectorAll('.size-option').forEach(option => {
+        option.addEventListener('click', (e) => {
+            const card = e.target.closest('.product-card');
+            card.querySelectorAll('.size-option').forEach(opt => opt.classList.remove('selected'));
+            e.target.classList.add('selected');
+        });
+    });
+
+    // Add to cart
+    document.querySelectorAll('.add-to-cart-btn').forEach(button => {
+        button.addEventListener('click', (e) => {
+            const card = e.target.closest('.product-card');
+            const productId = parseInt(card.dataset.id);
+            const product = state.products.find(p => p.id === productId);
+            const selectedColor = card.querySelector('.color-option.selected')?.dataset.color || 'White';
+            const selectedSize = card.querySelector('.size-option.selected')?.dataset.size;
+
+            if (!selectedSize) {
+                alert('Please select a size');
+                return;
+            }
+
+            const size = product.sizes.find(s => s.name === selectedSize);
+            
+            state.cart.push({
+                product,
+                color: selectedColor,
+                size,
+                quantity: 1
+            });
+
+            updateCart();
+            cartModal.classList.add('active');
+        });
+    });
+}
+
+// Cart management
+// Add to the state object at the top of your script
+const WHATSAPP_NUMBER = "254700000000"; // Replace with your actual WhatsApp number
+
+// Update the updateCart function
+function updateCart() {
+    cartCount.textContent = state.cart.reduce((sum, item) => sum + item.quantity, 0);
+    
+    cartItems.innerHTML = state.cart.map((item, index) => `
+        <div class="cart-item">
+            <img src="${item.product.image}" alt="${item.product.name}" style="width: 60px; height: 60px; object-fit: cover;">
+            <div>
+                <h4>${item.product.name}</h4>
+                <p>Size: ${item.size.name} | Color: ${item.color}</p>
+                <div class="quantity-controls">
+                    <button onclick="updateQuantity(${index}, -1)">-</button>
+                    <span>${item.quantity}</span>
+                    <button onclick="updateQuantity(${index}, 1)">+</button>
+                </div>
+                <p>KSH ${item.size.price * item.quantity}</p>
+                <button onclick="removeFromCart(${index})">Remove</button>
+            </div>
+        </div>
+    `).join('');
+
+    const total = state.cart.reduce((sum, item) => sum + item.size.price * item.quantity, 0);
+    cartTotal.textContent = `KSH ${total}`;
+}
+
+// Add function to update quantity
+function updateQuantity(index, change) {
+    const item = state.cart[index];
+    const newQuantity = item.quantity + change;
+    
+    if (newQuantity < 1) return;
+    
+    // Check minimum quantity for wholesale items
+    if (item.product.minQuantity && newQuantity < item.product.minQuantity) {
+        alert(`Minimum order quantity is ${item.product.minQuantity} pieces`);
+        return;
+    }
+    
+    item.quantity = newQuantity;
+    updateCart();
+}
+
+// Add WhatsApp checkout function
+function checkoutViaWhatsApp() {
+    const items = state.cart.map(item => 
+        `${item.product.name} (${item.size.name}, ${item.color}) x${item.quantity} - KSH ${item.size.price * item.quantity}`
+    ).join('\n');
+    
+    const total = state.cart.reduce((sum, item) => sum + item.size.price * item.quantity, 0);
+    
+    const message = encodeURIComponent(
+        `*New Order*\n\n${items}\n\n*Total: KSH ${total}*`
+    );
+    
+    const whatsappUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${message}`;
+    window.open(whatsappUrl, '_blank');
+}
+
+// Update the add to cart function
+function addToCart(productId) {
+    const card = event.target.closest('.product-card');
+    const product = state.products.find(p => p.id === productId);
+    const selectedColor = card.querySelector('.color-option.selected')?.dataset.color || 'White';
+    const selectedSize = card.querySelector('.size-option.selected')?.dataset.size;
+
+    if (!selectedSize) {
+        alert('Please select a size');
+        return;
+    }
+
+    const size = product.sizes.find(s => s.name === selectedSize);
+    
+    // Check if item already exists in cart
+    const existingItemIndex = state.cart.findIndex(item => 
+        item.product.id === productId && 
+        item.size.name === size.name && 
+        item.color === selectedColor
+    );
+
+    if (existingItemIndex !== -1) {
+        // Update quantity if item exists
+        state.cart[existingItemIndex].quantity += 1;
+    } else {
+        // Add new item if it doesn't exist
+        state.cart.push({
+            product,
+            color: selectedColor,
+            size,
+            quantity: 1
+        });
+    }
+
+    updateCart();
+    cartModal.classList.add('active');
+}
+
+function removeFromCart(index) {
+    state.cart.splice(index, 1);
+    updateCart();
+}
+
+// Category filtering
+document.querySelectorAll('.sidebar-menu a').forEach(link => {
+    link.addEventListener('click', (e) => {
+        e.preventDefault();
+        const category = e.target.dataset.category;
+        state.selectedCategory = category === 'all' ? null : category;
+        renderProducts();
+        sidebar.classList.remove('active');
+    });
+});
+
+// Newsletter form submission
+document.getElementById('newsletterForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    const email = this.querySelector('input[type="email"]').value;
+    
+    // Show success message
+    const button = this.querySelector('button');
+    const originalText = button.innerHTML;
+    button.innerHTML = 'Subscribed!';
+    button.classList.add('btn-success');
+    button.disabled = true;
+    
+    // Optional: Reset form after delay
+    setTimeout(() => {
+        this.reset();
+        button.innerHTML = originalText;
+        button.classList.remove('btn-success');
+        button.disabled = false;
+    }, 3000);
+    
+    // Here you would typically send the email to your server
+    console.log('Newsletter subscription for:', email);
+});
+
+// Smooth scroll to top when clicking footer links
+document.querySelectorAll('.footer-section a[href="#"]').forEach(link => {
+    link.addEventListener('click', function(e) {
+        e.preventDefault();
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        });
+    });
+});
+
+// Initial render
+renderProducts();
+    </script>
+</body>
+</html>
