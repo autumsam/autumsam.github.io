@@ -1114,24 +1114,6 @@ function adjustBodyPadding() {
     }
 }
 
-// Call on load and resize
-window.addEventListener('load', adjustBodyPadding);
-window.addEventListener('resize', adjustBodyPadding);
-
-// Improved carousel for mobile
-function setupMobileCarousel() {
-    const carousel = document.querySelector('.carousel');
-    const slides = document.querySelectorAll('.carousel-slide');
-    
-    if (window.innerWidth <= 768) {
-        // Auto-advance more slowly on mobile
-        setInterval(() => changeSlide(1), 7000);
-    }
-}
-
-// Call on load and resize
-window.addEventListener('load', setupMobileCarousel);
-window.addEventListener('resize', setupMobileCarousel);
 
 // Initial render
 renderProducts();
