@@ -201,9 +201,37 @@ body {
     
 }
 
+.categories-menu h2 {
+    font-size: 1.25rem;
+    margin-bottom: 1rem;
+    color: #333;
+}
 
+.categories-menu ul {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+}
 
+.categories-menu ul li {
+    margin-bottom: 0.5rem;
+}
 
+.categories-menu ul li a {
+    text-decoration: none;
+    color: #333;
+    font-size: 1rem;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.categories-menu ul li a:hover,
+.categories-menu ul li a.active {
+    background-color: #FF7F7F;
+    color: #fff;
+}
 /* Products Container */
 .products-container {
     display: grid;
@@ -412,21 +440,10 @@ body {
 }
 
 @media (max-width: 768px) {
-    .header {
-        position: fixed;
-        width: 100%;
-        top: 0;
-        left: 0;
-        z-index: 1000;
-        background-color: #FFE5E5;
+    .main-container {
+        grid-template-columns: 1fr; /* Single-column layout */
     }
 
-    .header-content {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 0.5rem 1rem;
-    }
     .categories-menu {
         display: flex;
         flex-direction: row; /* Horizontal layout */
@@ -440,7 +457,8 @@ body {
         background-color: blanchedalmond;
         box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     }
-        .categories-menu ul {
+
+    .categories-menu ul {
         flex-direction: row; /* Horizontal list */
         background-color: blanchedalmond;
         margin: 0;
@@ -453,69 +471,8 @@ body {
     .categories-menu h2 {
         display: none; /* Hide the heading on small screens */
     }
-    .menu-btn {
-        display: block;
-        background: none;
-        border: none;
-        font-size: 1.5rem;
-        cursor: pointer;
-    }
-
-    .logo {
-        display: flex;
-        align-items: center;
-        gap: 0.5rem;
-    }
-
-    .logo h1 {
-        font-size: 1rem;
-        margin: 0;
-    }
-
-    .tagline {
+    .logo h1{
         display: none;
-    }
-
-    .hero {
-        margin-top: 60px; /* Adjust based on header height */
-        height: 250px; /* Reduced height for mobile */
-    }
-
-    .carousel-content {
-        padding: 1rem;
-        width: 90%;
-        max-width: 400px;
-    }
-
-    .carousel-content h2 {
-        font-size: 1.5rem;
-    }
-
-    .carousel-content p {
-        font-size: 0.875rem;
-    }
-
-    .carousel-btn {
-        display: none; /* Optional: hide manual navigation buttons */
-    }
-}
-
-/* Additional mobile-first adjustments */
-@media (max-width: 480px) {
-    .header-content {
-        padding: 0.5rem;
-    }
-
-    .hero {
-        height: 200px;
-    }
-
-    .logo i {
-        font-size: 1.2rem;
-    }
-
-    .logo h1 {
-        font-size: 0.9rem;
     }
 }
 
