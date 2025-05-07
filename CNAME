@@ -1,4 +1,2 @@
-echo "ph.analytics.buildkite.com" > CNAME
-git add CNAME
-git commit -m "Add CNAME to claim subdomain"
-git push
+ph.analytics.buildkite.com
+
